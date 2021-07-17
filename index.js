@@ -20,10 +20,37 @@ const viewEmployees = () => {
         })
 };
 
-// viewDepartment();
+const viewDepartment = () => {
+    connection.query("SELECT department.name AS department, role.id, employee.id, employee. first_name, employee.last_name FROM employee LEFT JOIN role ON (role.id = employee.role_id) LEFT JOIN department ON (department.id = role.department_id) ORDER BY department.name;", (err, res) =>{
+        if (err) throw err;
+        console.table(res)
+    })
+};
 
-// viewByManager();
 
+const chooseRole = () => {
+    connection.query("SELECT * FROM role", (err, res) => {
+        let roleArray = [];
+        if (err) throw err
+        for (var i = 0; i < res.length; i++){
+            roleArray.push(res[i].id)
+            // return roleArray;
+            console.log(roleArray)
+        }
+    })
+}
+
+const chooseManager = () =>{
+    connection.query("SELECT * FROM employee WHERE manager_id IS null", (err, res) =>{
+        let mngArray = [];
+        if (err) throw err
+        for (var i = 0; i < res.length; i++){
+            mngArray.push(res[i].id)
+            // return mngArray;
+            console.log(mngArray)
+        }
+    })
+}
 const addEmployee = () => {
     inquirer.prompt([
         {
@@ -40,14 +67,13 @@ const addEmployee = () => {
             name: "role",
             type: "rawlist",
             message: "what is their role?",
-            choices: connection.query("SELECT * FROM role", (err,res) => {
-                let roleArray = [];
-                if (err) throw err
-                for (var i = 0; i < res,length; i++){
-                    roleArray.push(res[i].id)
-                }
-                return roleArray;
-            })
+            choices: chooseRole()
+        },
+        {
+            name: "manager",
+            type: "rawlist",
+            message: "Who is their manager?",
+            choices: chooseManager()
         }
     ])
 };
@@ -75,10 +101,6 @@ const start = () => {
             case "View employees by department":
                 viewDepartment();
                 break;
-            
-            case "View employee by manager":
-                viewByManager();
-                break;
 
             case "Add employee":
                 addEmployee();
@@ -98,5 +120,9 @@ const start = () => {
         }
     })
 }
-
-start();
+// addEmployee();
+// viewEmployees();
+// start();
+// viewDepartment()
+// chooseManager()
+chooseRole();
