@@ -28,6 +28,7 @@ const viewDepartment = () => {
     (err, res) => {
       if (err) throw err;
       console.table(res);
+      start();
     }
   );
 };
@@ -273,9 +274,4 @@ const start = () => {
       }
     });
 };
-// addEmployee();
-// viewEmployees();
-// start();
-// viewDepartment();
-// chooseManager();
-// chooseRole();
+
