@@ -186,7 +186,7 @@ const addRole = () =>{
     },
     (err, res) =>{
       if(err) throw err;
-      console.log("Role added!\n")
+      console.log("Role added!\n");
       start();
     }
     )
@@ -196,11 +196,22 @@ const addRole = () =>{
 const addDepartment = () => {
   inquirer.prompt([
     {
-      name: "department",
+      name: "name",
       type: "input",
       message: "What is the name of this department?"
     }
-  ]).then()
+  ]).then((answers) => {
+    connection.query("INSERT INTO department SET ?",
+      {
+        name: answers.name
+      },
+      (err, res) => {
+        if (err) throw err;
+        console.log("Department added!");
+        start();
+      }
+    )
+  })
 };
 
 const start = () => {
