@@ -32,6 +32,17 @@ const viewDepartment = () => {
   );
 };
 
+const viewRole = () => {
+  connection.query(
+    "SELECT * FROM employee_db.role",
+    (err, res) => {
+      if (err) throw err;
+      console.table(res);
+      start();
+    }
+  )
+}
+
 const addEmployee = () => {
   connection.query("SELECT * FROM employee_db.role;", (err, res) => {
     let roleArray = [];
@@ -222,8 +233,8 @@ const start = () => {
       message: "What do you want to do?",
       choices: [
         "View all employees",
-        "View employees by department",
-        "View employee by manager",
+        "View department",
+        "View role",
         "Add employee",
         "Add deparnment",
         "Add role",
@@ -236,8 +247,12 @@ const start = () => {
           viewEmployees();
           break;
 
-        case "View employees by department":
+        case "View department":
           viewDepartment();
+          break;
+
+        case "View role":
+          viewRole();
           break;
 
         case "Add employee":
